@@ -1,0 +1,87 @@
+1) Pieslēgšanās e-pastam
+
+Apraksts vienkāršā valodā
+
+Kad vēlos pārbaudīt e-pastu, es atveru datoru vai telefonu un ieeju e-pasta vietnē, piemēram, Gmail vai Outlook.
+Ja neesmu jau pieslēdzies, man jāievada sava e-pasta adrese un parole. 
+Ja parole ir pareiza, sistēma dažreiz lūdz papildus apstiprināt manu identitāti — piemēram, ievadīt kodu no telefona, 
+apstiprināt paziņojumu vai izmantot pirksta nospiedumu.
+Ja parole ir nepareiza, mēģinu vēlreiz vai atjaunoju paroli.
+Kad visi dati ir pareizi un identitāte apstiprināta, es varu atvērt savu e-pastu un lasīt vēstules.
+
+Algoritms (numurēti soļi)
+
+1. SĀKUMS
+2. Ieslēdz ierīci (datoru vai telefonu).
+3. Atver interneta pārlūku vai e-pasta lietotni.
+4. Atver e-pasta vietni (piemēram, Gmail vai Outlook).
+5. Pārbauda: vai lietotājs jau ir pieslēdzies?
+	a) Ja jā - pāriet uz 9. soli.
+	b) Ja nē - turpina.
+6. Ievada e-pasta adresi.
+7. Ievada paroli.
+8. Nospiež “Pieslēgties”.
+9. Pārbauda vai parole ir pareiza:
+	a) Ja JĀ - pāriet uz 13. soli.
+	b) Ja NĒ - turpina.
+10. Piedāvā izvēli:
+	a) "Mēģini vēlreiz" - atgriežas 6.solī.
+	b) "Aizmirsu paroli" - pāriet uz 11.soli.
+11. Paroles atjaunošana:
+	* Ievada e-pasta adresi
+	* Saņem atjaunošanas kodu
+	* Ievada saņemto kodu
+	* Izveido jaunu paroli
+12. Pēc paroles nomaiņas - atgriežas 6.solī
+13. Pārbauda vai nepieciešama papildu identifikācija:
+	a) Ja NĒ - pāriet uz 17. soli
+	b) Jā JĀ - turpina.
+14. Izvēlas identifikācijas veidu:
+	* SMS kods (Sistēma nosūta vienreizēju kodu uz telefonu īsziņā)
+	* Autentifikācijas lietotne (Speciāla lietotne ģenerē drošibas kodu, piemēram Google Authenticator)
+	* Push paziņojums (Telefonā parādās paziņojums, kur jāapstiprina pieslēgšanās ar vienu pogu)
+	* Biometrija (Identitāti apstiprina ar pirksta nospiedumu, sejas atpazīšanu, acu skenēšanu)
+15. Apstiprina identitāti.
+16. Pārbauda vai apstiprinājums veiksmīgs:
+	a) Ja NĒ - atkārto 14.-15. soli
+	b) Ja JĀ - turpina
+17. Atver ienākošo vēstuļu sadaļu.
+18. BEIGAS (Lietotājs veiksmīgi piekļuvis e-pastam)
+
+
+2) Kafijas iegāde
+
+Apraksts vienkāršā valodā
+
+Vispirms es saprotu, ka vēlos kafiju. 
+Tad es izdomāju, kur to pirkt – kioskā, kafejnīcā, degvielas uzpildes stacijā vai kafijas automātā. 
+Es dodos uz izvēlēto vietu. 
+Kad esmu tur, paskatos, kādas kafijas ir pieejamas, un izvēlos sev vēlamo (piemēram, espresso vai latte). 
+Tad es samaksāju – ar karti vai skaidrā naudā. 
+Pēc tam gaidu, kamēr kafija tiek pagatavota. 
+Kad es saņemu kafiju, process beidzas.
+
+Algoritms (numurēti soļi)
+
+1. SĀKUMS (Izlemj, ka vēlas iegādāties kafiju).
+2. Izvēlas vietu, kur iegādāties kafiju.
+	* JA izvēlas kiosku - dodas uz kiosku.
+	* JA izvēlas kafejnīcu - dodas uz kafejnīcu.
+	* JA izvēlas DUS (degvielas uzpildes staciju) - dodas uz DUS.
+	* JA izvēlas kafijas automātu - dodas pie automāta.
+3. Dodas uz izvēlēto vietu.
+4. Ierodas izvēlētā vietā.
+5. Pārbauda, vai kafija ir pieejama.
+	* JA kafija nav pieejama - atgriežas 2. solī un izvēlas citu vietu.
+	* JA kafija ir pieejama - turpina.
+6. Izvēlas kafijas veidu (piemēram, espresso, latte, melnu kafiju).
+7. Izvēlas maksāšanas veidu.
+	* JA maksā ar karti - veic maksājumu ar karti.
+	* JA maksā skaidrā naudā - veic maksājumu skaidrā naudā.
+8. Veic maksājumu.
+9. Pārbauda vai maksājums ir sekmīgs.
+	* JA maksājums neveiksmīgs - atkārto 6. soli vai izvēlas citu maksāšanas veidu.
+	* JA maksājums veiksmīgs - turpina.
+10. Gaida kamēr kafija tiek pagatavota.
+11. Saņem kafiju.
+12. BEIGAS (Process beidzas, kad kafija ir saņemta).

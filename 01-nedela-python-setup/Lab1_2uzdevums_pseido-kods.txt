@@ -1,0 +1,20 @@
+SĀKUMS
+
+Paņem maizi
+
+JA maize ir grauzdēta? - JĀ
+    Turpina
+NĒ
+    Grauzdē maizi
+
+Paņem sviestu
+
+Vai vēlies pievienot piedevas? - JĀ
+    Paņem piedevas
+    Pievieno piedevas
+NĒ
+    Turpina
+
+Saliek sviestmaizi
+
+BEIGAS
