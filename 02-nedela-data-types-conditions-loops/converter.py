@@ -133,3 +133,5 @@ try:
 
 except ValueError:
     print("Kļūda: jāievada skaitlis.")
+
+# programmas beigas
