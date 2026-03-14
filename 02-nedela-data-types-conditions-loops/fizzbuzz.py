@@ -11,6 +11,11 @@ Programma:
 
 import sys
 
+if len(sys.argv) < 2:
+    print("Kļūda: jānorāda skaitlis N.")
+    print("Piemērs: python fizzbuzz.py 15")
+    sys.exit()
+
 try:
     N = int(sys.argv[1])
 except ValueError:
