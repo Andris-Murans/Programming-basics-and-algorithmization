@@ -133,4 +133,3 @@ try:
 
 except ValueError:
     print("Kļūda: jāievada skaitlis.")
-    
