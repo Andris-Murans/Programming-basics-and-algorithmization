@@ -24,18 +24,18 @@ except ValueError:
 
 for i in range(1, N + 1):
 
-    # vispirms pārbauda dalāmību ar abiem
-    if i % 3 == 0 and i % 5 == 0:
-        print("FizzBuzz")
+    result = ""
 
-    # dalās ar 3
-    elif i % 3 == 0:
-        print("Fizz")
+    if i % 3 == 0:
+        result += "Fizz"
 
-    # dalās ar 5
-    elif i % 5 == 0:
-        print("Buzz")
+    if i % 5 == 0:
+        result += "Buzz"
 
-    # ja nedalās ne ar vienu
-    else:
+    if i % 7 == 0:
+        result += "Jazz"
+
+    if result == "":
         print(i)
+    else:
+        print(result)
