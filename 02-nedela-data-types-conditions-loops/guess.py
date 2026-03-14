@@ -11,34 +11,29 @@ Minēšanas spēle:
 
 import random
 
-while True:
+while True: 
 
     secret_number = random.randint(1, 100)
-
-    attempts = 0 
-    max_attempts = 10 
+    attempts = 0
+    max_attempts = 10
 
     print("\nEs esmu izvēlējies skaitli no 1 līdz 100.")
     print("Mēģini to uzminēt!")
 
     while True:
-
         guess = input("Tavs minējums: ")
-
         try:
             guess = int(guess)
         except ValueError:
             print("Lūdzu ievadi derīgu skaitli!")
-            continue   
+            continue
 
         attempts += 1
 
         if guess < secret_number:
             print("Par mazu")
-
         elif guess > secret_number:
             print("Par lielu")
-
         else:
             print("Apsveicu! Tu uzminēji skaitli!")
             break
@@ -50,4 +45,14 @@ while True:
     print(f"Mēģinājumu skaits: {attempts}")
     print(f"Pareizais skaitlis bija: {secret_number}")
 
-    break
+    while True:
+        play_again = input("Vai spēlēt vēlreiz? (j/n): ").strip().lower()
+
+        if play_again == "j":
+            break
+        elif play_again == "n":
+            print("Paldies par spēli!")
+            exit()
+        else:
+            print("Lūdzu ievadi tikai j vai n.")
+            
