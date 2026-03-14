@@ -12,12 +12,12 @@ Programma pārbauda vai persona:
 # -----------------------------------
 
 try:
-    age = int(input("Ievadi vecumu: "))
+    age = int(input("Ievadi vecumu: "))  # input() vienmēr atgriež tekstu, tāpēc izmanto int() lai pārvērstu uz skaitli
 
     # pārbauda vai vecums nav negatīvs
     if age < 0:
         print("Kļūda: vecums nevar būt negatīvs!")
-        exit()
+        exit()  # exit() šeit aptur programmu, ja ievade ir nepareiza
 
 except ValueError:
 
@@ -30,7 +30,9 @@ except ValueError:
 # ---------------
 
 while True:
-    license_input = input("Vai ir autovadītāja apliecība? (j/n): ").lower() # lower() pārvērš visu uz maziem burtiem
+    # .strip() noņem atstarpes
+    # .lower() pārvērš visu uz maziem burtiem
+    license_input = input("Vai ir autovadītāja apliecība? (j/n): ").strip().lower() 
 
     if license_input == "j" or license_input == "n":    # pārbauda vai ievadīts j vai n
         break
@@ -38,7 +40,7 @@ while True:
         print("Lūdzu ievadi tikai j vai n.")    # ja nav ievadīts j vai n izvada paziņojumu
 
 while True:
-    student_input = input("Vai ir students? (j/n): ").lower()
+    student_input = input("Vai ir students? (j/n): ").strip().lower()
 
     if student_input == "j" or student_input == "n":
         break
@@ -46,7 +48,7 @@ while True:
         print("Lūdzu ievadi tikai j vai n.")
 
 while True:
-    veteran_input = input("Vai ir veterāns? (j/n): ").lower()
+    veteran_input = input("Vai ir veterāns? (j/n): ").strip().lower()
 
     if veteran_input == "j" or veteran_input == "n":
         break
@@ -60,6 +62,8 @@ while True:
 has_license = license_input == "j"
 is_student = student_input == "j"
 is_veteran = veteran_input == "j"
+
+# Pievieno atbilstības nosacījumus balsošanai, automašīnu nomai un atlaidēm
 
 # -------------
 # 4. balsošana
@@ -98,3 +102,13 @@ if 16 <= age <= 26 and is_student:
     student = "Jā ✓"
 else:
     student = "Nē ✗"       
+
+# ------------------------
+# 8. rezultātu izvadīšana
+# ------------------------
+
+print("\n---")
+print(f"Balsošana:        {vote}")
+print(f"Auto īre:         {rent}")
+print(f"Senioru atlaide:  {senior}")
+print(f"Studentu atlaide: {student}")
