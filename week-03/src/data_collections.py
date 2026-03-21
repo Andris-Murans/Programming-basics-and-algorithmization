@@ -77,3 +77,24 @@ for name, grade in students.items():
         best_name = name
 
 print(f"Labākais students: {best_name} ({best_grade})")
+
+# =========================
+# C DAĻA — KOMBINĀCIJA
+# =========================
+
+print("\n--- Studenti ar atzīmi >= 80 ---")
+
+# 1. Saraksts ar vārdnīcām
+student_list = [
+    {"name": "Anna", "grade": 85},
+    {"name": "Jānis", "grade": 75},
+    {"name": "Līga", "grade": 95},
+    {"name": "Pēteris", "grade": 88}
+]
+
+# 2. Filtrējam studentus ar >= 80
+good_students = []
+
+for student in student_list:
+    if student["grade"] >= 80:
+        good_students.append(student)
