@@ -74,3 +74,88 @@ def count_words(text, separator=" "):
         raise ValueError("Mainīgajam 'text' jābūt string tipam")
 
     return len(text.split(separator))  # sadala pēc atstarpēm
+
+# =========================
+# SKAITĻU FUNKCIJAS
+# =========================
+
+def clamp(num, low, high):
+    """Ierobežo skaitli diapazonā [low, high].
+
+    Args:
+        num (int/float): skaitlis
+        low (int/float): apakšējā robeža
+        high (int/float): augšējā robeža
+
+    Returns:
+        int/float: ierobežotā vērtība
+
+    Example:
+        >>> clamp(15, 0, 10)
+        10
+    """
+    if low > high:
+        raise ValueError("low nedrīkst būt lielāks par high")
+
+    # min(num, high): Neļauj skaitlim būt lielākam par griestiem. Ja skaitlis ir par lielu, to "nosit" lejā līdz high.
+    # max(low, ...): Neļauj rezultātam būt mazākam par grīdu. Ja pēc pirmā soļa skaitlis ir par mazu, to "pavelk" uz augšu līdz low.
+    return max(low, min(num, high))
+
+
+def is_prime(num):
+    """Pārbauda vai skaitlis ir pirmskaitlis.
+
+    Args:
+        num (int): skaitlis
+
+    Returns:
+        bool: True ja pirmskaitlis
+
+    Example:
+        >>> is_prime(7)
+        True
+    """
+    if not isinstance(num, int):
+        raise ValueError("num jābūt int")
+
+    # num < 2: Skaitļi, kas mazāki par 2 (piemēram, 0, 1 vai negatīvi skaitļi), nav pirmskaitļi, tāpēc funkcija uzreiz pasaka False.
+    if num < 2:
+        return False
+    # num ** 0.5: Nepārbauda visus skaitļus līdz galam, bet tikai līdz skaitļa kvadrātsaknei.
+    # Tas padara kodu daudz ātrāku, jo, ja dalītājs nav atrasts līdz saknei, tā tālāk vairs nebūs.
+    for i in range(2, int(num ** 0.5) + 1):
+        # num % i == 0: Ja skaitlis dalās ar kādu citu skaitli bez atlikuma, tas nav pirmskaitlis, un funkcija atgriež False.
+        if num % i == 0:    
+            return False
+
+    return True
+
+
+def factorial(n):
+    """Aprēķina n! (faktoriālu).
+
+    Args:
+        n (int): skaitlis (n >= 0)
+
+    Returns:
+        int: faktoriāls
+
+    Example:
+        >>> factorial(5)
+        120
+    """
+    if not isinstance(n, int):
+        raise ValueError("n jābūt int")
+
+    # n < 0: Faktoriāls negatīviem skaitļiem neeksistē, tāpēc programma neļauj turpināt.
+    if n < 0:
+        raise ValueError("n jābūt >= 0")
+
+    # result = 1: Izveido mainīgo, kurā "krās" reizinājumu. Mēs sākam ar 1, jo, reizinot ar 0, viss rezultāts vienmēr būtu 0.
+    result = 1
+
+    # result *= i: Katrā solī esošais rezultāts tiek sareizināts ar nākamo skaitli (1, tad reiz 2, tad reiz 3...).
+    for i in range(1, n + 1):
+        result *= i
+
+    return result
