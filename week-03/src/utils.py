@@ -159,3 +159,50 @@ def factorial(n):
         result *= i
 
     return result
+
+# =========================
+# SARAKSTU FUNKCIJAS
+# =========================
+
+def total(numbers):
+    """Aprēķina saraksta summu.
+
+    Args:
+        numbers (list): skaitļu saraksts
+
+    Returns:
+        int/float: summa
+    """
+    if not isinstance(numbers, list):
+        raise ValueError("numbers jābūt sarakstam")
+
+    result = 0  # Izveido mainīgo, kurā "krās" summu. Tā kā saskaitīšana vēl nav sākusies, tur ir nulle.
+
+    for num in numbers:
+        result += num   # Katru atrasto skaitli pieskaita pie jau esošās summas.
+
+    return result
+
+
+def average(numbers):
+    """Aprēķina vidējo vērtību.
+
+    Args:
+        numbers (list): skaitļu saraksts
+
+    Returns:
+        float: vidējais
+
+    Example:
+        >>> average([1,2,3])
+        2.0
+    """
+    if not isinstance(numbers, list):
+        raise ValueError("numbers jābūt sarakstam")
+
+    # Ja saraksts būs tukšs, programma mēģinātu dalīt ar nulli, kas matemātikā nav iespējams un izraisītu kļūdu (ZeroDivisionError).
+    if len(numbers) == 0:
+        raise ValueError("saraksts nedrīkst būt tukšs")
+
+    # izsauc iepriekš izveidoto f-ju total() un izmanto len() f-ju saraksta garuma noteikšanai
+    return total(numbers) / len(numbers)
