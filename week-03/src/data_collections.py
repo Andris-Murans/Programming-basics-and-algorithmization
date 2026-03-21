@@ -10,7 +10,7 @@ numbers = [1, 2, 3, 4, 5]
 # 2. Pievienojam jaunu elementu saraksta beigās
 numbers.append(6)  # tagad saraksts "numbers": [1,2,3,4,5,6]
 
-# 3. Dzēšam pēdējo elementu
+# 3. Dzēšam pēdējo elementu sarakstā
 numbers.pop()  # noņem 6 no saraksta
 
 # Tagad saraksts atkal ir [1,2,3,4,5]
@@ -64,7 +64,7 @@ students["Pēteris"] = 88
 students["Jānis"] = 75
 
 # 4. Izvadām visus studentus
-for name, grade in students.items():
+for name, grade in students.items():    # .items() ļauj piekļūt visiem vārdnīcas elementiem vienlaicīgi
     print(f"{name}: {grade}")
 
 # 5. Atrodam labāko studentu
@@ -76,7 +76,7 @@ for name, grade in students.items():
         best_grade = grade
         best_name = name
 
-print(f"Labākais students: {best_name} ({best_grade})")
+print(f"Labākais students: {best_name} ({best_grade})") # f-string ļauj ievietot mainīgos tieši tekstā
 
 # =========================
 # C DAĻA — KOMBINĀCIJA
@@ -92,9 +92,13 @@ student_list = [
     {"name": "Pēteris", "grade": 88}
 ]
 
-# 2. Filtrējam studentus ar >= 80
-good_students = []
+# 2. Filtrējam studentus ar atzīmi >= 80
+good_students = []  # izvidojam jaunu sarakstu priekš studentiem ar atzīmi >=80
 
 for student in student_list:
     if student["grade"] >= 80:
         good_students.append(student)
+
+# 3. enumerate() → dod indeksu + vērtību
+for i, student in enumerate(good_students, start=1):
+    print(f"{i}. {student['name']} — {student['grade']}")
