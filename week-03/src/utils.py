@@ -206,3 +206,21 @@ def average(numbers):
 
     # izsauc iepriekš izveidoto f-ju total() un izmanto len() f-ju saraksta garuma noteikšanai
     return total(numbers) / len(numbers)
+
+# =========================
+# DEMO BLOKS
+# =========================
+
+# if __name__ == "__main__": nodrošina, ka šie testi (print) izpildīsies tikai tad, ja tu palaidīsi šo konkrēto failu.
+# Ja kāds cits programmētājs mēģinās "importēt" tavas funkcijas savā projektā, testi automātiski neizpildīsies un netraucēs viņa darbam.
+if __name__ == "__main__":
+    print(capitalize("hello"))
+    print(truncate("Šis ir ļoti garš teksts", 10))
+    print(count_words("Python ir foršs"))
+
+    print(clamp(15, 0, 10))
+    print(is_prime(7))
+    print(factorial(5))
+
+    print(total([1, 2, 3, 4]))
+    print(average([1, 2, 3, 4]))
