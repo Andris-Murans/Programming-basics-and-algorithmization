@@ -43,3 +43,26 @@ every_second = numbers[::2]  # katrs otrais elements
 
 print(f"Pirmie 3: {first_three}, Pēdējie 2: {last_two}")
 print(f"Katrs otrais: {every_second}")
+
+# =========================
+# B DAĻA — VĀRDNĪCAS (dict)
+# =========================
+
+print("\n--- Vārdnīcas ---")
+
+# 1. Izveidojam vārdnīcu
+students = {
+    "Anna": 85,
+    "Jānis": 72,
+    "Līga": 95
+}
+
+# 2. Pievienojam jaunu studentu
+students["Pēteris"] = 88
+
+# 3. Mainām esošu atzīmi
+students["Jānis"] = 75
+
+# 4. Izvadām visus studentus
+for name, grade in students.items():
+    print(f"{name}: {grade}")
