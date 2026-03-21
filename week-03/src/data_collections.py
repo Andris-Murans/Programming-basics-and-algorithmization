@@ -66,3 +66,14 @@ students["Jānis"] = 75
 # 4. Izvadām visus studentus
 for name, grade in students.items():
     print(f"{name}: {grade}")
+
+# 5. Atrodam labāko studentu
+best_name = ""  # sākuma vērtība labākā studenta vārdam
+best_grade = 0  # sākuma vērtība labākā studenta atzīmei
+
+for name, grade in students.items():
+    if grade > best_grade:
+        best_grade = grade
+        best_name = name
+
+print(f"Labākais students: {best_name} ({best_grade})")
