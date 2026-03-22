@@ -35,7 +35,7 @@ def truncate(text, max_len=20):
 
     Args:
         text (str): ievades teksts
-        max_len (int): maksimālais garums
+        max_len (int): maksimālais teksta garums pirms '...'
 
     Returns:
         str: saīsināts teksts
@@ -46,6 +46,12 @@ def truncate(text, max_len=20):
     """
     if not isinstance(text, str):
         raise ValueError("Mainīgajam 'text' jābūt string tipam")
+    
+    if not isinstance(max_len, int):
+        raise ValueError("Mainīgajam 'max_len' jābūt int tipam")
+    
+    if max_len < 0:
+        raise ValueError("Mainīgajam 'max_len' jābūt >= 0")
 
     if len(text) <= max_len:
         return text
@@ -54,7 +60,7 @@ def truncate(text, max_len=20):
     return text[:max_len] + "..."   
 
 
-def count_words(text, separator=" "):
+def count_words(text, separator=None):
     """Saskaita vārdus tekstā.
 
     Args:
@@ -72,14 +78,17 @@ def count_words(text, separator=" "):
     """
     if not isinstance(text, str):
         raise ValueError("Mainīgajam 'text' jābūt string tipam")
+    
+    if separator is not None and not isinstance(separator, str):
+        raise ValueError("Mainīgajam 'separator' jābūt string vai None")
 
-    return len(text.split(separator))  # sadala pēc atstarpēm
+    return len(text.split(separator))  # sadala tekstu pēc norādītā separatora
 
 # =========================
 # SKAITĻU FUNKCIJAS
 # =========================
 
-def clamp(num, low, high):
+def clamp(num, low=0, high=100):
     """Ierobežo skaitli diapazonā [low, high].
 
     Args:
@@ -91,9 +100,19 @@ def clamp(num, low, high):
         int/float: ierobežotā vērtība
 
     Example:
-        >>> clamp(15, 0, 10)
-        10
+        >>> clamp(150)
+        100
+        >>> clamp(-10)
+        0
+        >>> clamp(5, 0, 10)
+        5
     """
+    if not isinstance(num, (int, float)):
+        raise ValueError("Mainīgajam 'num' jābūt skaitlim")
+
+    if not isinstance(low, (int, float)) or not isinstance(high, (int, float)):
+        raise ValueError("Mainīgajiem 'low' un 'high' jābūt skaitļiem")
+    
     if low > high:
         raise ValueError("low nedrīkst būt lielāks par high")
 
@@ -114,9 +133,11 @@ def is_prime(num):
     Example:
         >>> is_prime(7)
         True
+        >>> is_prime(4)
+        False
     """
     if not isinstance(num, int):
-        raise ValueError("num jābūt int")
+        raise ValueError("Mainīgajam 'num' jābūt int tipam")
 
     # num < 2: Skaitļi, kas mazāki par 2 (piemēram, 0, 1 vai negatīvi skaitļi), nav pirmskaitļi, tāpēc funkcija uzreiz pasaka False.
     if num < 2:
@@ -143,9 +164,11 @@ def factorial(n):
     Example:
         >>> factorial(5)
         120
+        >>> factorial(0)
+        1
     """
     if not isinstance(n, int):
-        raise ValueError("n jābūt int")
+        raise ValueError("Mainīgajam 'n' jābūt int tipam")
 
     # n < 0: Faktoriāls negatīviem skaitļiem neeksistē, tāpēc programma neļauj turpināt.
     if n < 0:
@@ -172,6 +195,10 @@ def total(numbers):
 
     Returns:
         int/float: summa
+    
+    Example:
+        >>> total([1, 2, 3])
+        6
     """
     if not isinstance(numbers, list):
         raise ValueError("numbers jābūt sarakstam")
@@ -179,6 +206,9 @@ def total(numbers):
     result = 0  # Izveido mainīgo, kurā "krās" summu. Tā kā saskaitīšana vēl nav sākusies, tur ir nulle.
 
     for num in numbers:
+        if not isinstance(num, (int, float)):
+            raise ValueError("visiem elementiem jābūt skaitļiem")
+        
         result += num   # Katru atrasto skaitli pieskaita pie jau esošās summas.
 
     return result
@@ -214,13 +244,37 @@ def average(numbers):
 # if __name__ == "__main__": nodrošina, ka šie testi (print) izpildīsies tikai tad, ja tu palaidīsi šo konkrēto failu.
 # Ja kāds cits programmētājs mēģinās "importēt" tavas funkcijas savā projektā, testi automātiski neizpildīsies un netraucēs viņa darbam.
 if __name__ == "__main__":
+    print("\n*** capitalize f-jas piemērs ***")
     print(capitalize("hello"))
-    print(truncate("Šis ir ļoti garš teksts", 10))
+
+    print("\n*** truncate f-jas piemēri ***")
+    # robežgadījums ja f-jā truncate() padod argumentu 'max_len' < 0 
+    try:
+        print(truncate("Šis ir ļoti garš teksts", -1))
+    except ValueError as e:
+        print(f"Kļūda: {e}")
+    
+    print(truncate("Šis ir ļoti garš teksts", 11))
+    
+    print("\n*** count_words f-jas piemēri ***")
     print(count_words("Python ir foršs"))
+    print(count_words("a,b,c", ","))
 
-    print(clamp(15, 0, 10))
+    print("\n*** clamp f-jas piemēri ***")
+    print(clamp(150))
+    print(clamp(-10))
+    print(clamp(5, 0, 10))
+
+    print("\n*** is_prime f-jas piemēri ***")
     print(is_prime(7))
-    print(factorial(5))
+    print(is_prime(4))
 
-    print(total([1, 2, 3, 4]))
-    print(average([1, 2, 3, 4]))
+    print("\n*** factorial f-jas piemēri ***")
+    print(factorial(5))
+    print(factorial(0)) # faktoriāls no nulles matemātikā ir 1
+    
+    print("\n*** total f-jas piemērs ***")
+    print(total([1, 2, 3]))
+
+    print("\n*** average f-jas piemērs ***")
+    print(average([1, 2, 3]))
