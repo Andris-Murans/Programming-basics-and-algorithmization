@@ -130,3 +130,80 @@ def search_contacts(query):
         phone = contact.get("phone", "Nav numura")
 
         print(f"{i}. {name} — {phone}")
+
+if __name__ == "__main__":
+    # ----------------------------------------
+    # 1. Komandas pārbaude
+    # ----------------------------------------
+    if len(sys.argv) < 2:
+        print("Kļūda: nav komandas")
+        print("\nIespējamās komandas: add, list, search")
+        print("  add    - pievieno kontaktu")
+        print("  list   - parāda visus kontaktus")
+        print("  search - meklē kontaktu")
+        print('Piemērs: python contacts.py add "Anna Bērziņa" "+371 26123456"')
+        sys.exit()
+
+    command = sys.argv[1].lower()
+
+    # ----------------------------------------
+    # 2. ADD komanda
+    # ----------------------------------------
+    if command == "add":
+
+        # Ja nav argumentu, lieto input()
+        if len(sys.argv) < 4:
+            print("\nIevadi kontaktu:")
+
+            name = input("Vārds: ").strip()
+            phone = input("Telefons: ").strip()
+
+        else:
+            parts = sys.argv[2:]
+
+            # Noteikums: telefons = pēdējais arguments
+            phone = parts[-1]
+            name = " ".join(parts[:-1])
+
+        # -------- VALIDĀCIJA --------
+
+        # Tukšs vārds
+        if not name:
+            print("Kļūda: vārds nevar būt tukšs")
+            sys.exit()
+
+        # Tukšs telefons
+        if not phone:
+            print("Kļūda: telefons nevar būt tukšs")
+            sys.exit()
+
+        add_contact(name, phone)
+
+    # ----------------------------------------
+    # 3. LIST komanda
+    # ----------------------------------------
+    elif command == "list":
+        list_contacts()
+
+    # ----------------------------------------
+    # 4. SEARCH komanda
+    # ----------------------------------------
+    elif command == "search":
+
+        if len(sys.argv) < 3:
+            query = input("Ko meklēt: ").strip()
+        else:
+            query = " ".join(sys.argv[2:]).strip()
+
+        if not query:
+            print("Kļūda: meklēšanas teksts nevar būt tukšs")
+            sys.exit()
+
+        search_contacts(query)
+
+    # ----------------------------------------
+    # 5. Nezināma komanda
+    # ----------------------------------------
+    else:
+        print("Nezināma komanda")
+        print("Komandas: add, list, search")
