@@ -1,5 +1,5 @@
 import sys
-from storage import load_list, save_list
+from storage import load_list, save_list, get_price, set_price
 import utils
 
 def add_product(name, qty, price):
@@ -108,18 +108,16 @@ def main():
     if command == "add":
 
         # Ja nav argumentu, lieto input()
-        if len(sys.argv) < 5:
+        if len(sys.argv) < 4:
             print("\nIevadi produktu:")
 
             name = input("Nosaukums: ").strip()
             qty = input("Daudzums: ").strip()
-            price = input("Cena: ").strip()
-        
+                    
         else:
             name = sys.argv[2]
             qty = sys.argv[3]
-            price = sys.argv[4]
-        
+                    
         # -------- VALIDĀCIJA --------
         # Nosaukums
         while not name.strip(): # .strip() lai novērstu tukšas atstarpes
@@ -141,19 +139,52 @@ def main():
                 qty = input("Ievadi daudzumu vēlreiz: ").strip()
 
         # Cena
-        while True:
-            try:
-                price = float(price)
+        price = get_price(name)
 
-                if price <= 0:
-                    print("Kļūda: cenai jābūt lielākai par 0")
-                    price = input("Ievadi cenu vēlreiz: ").strip()
-                    continue
-                break
-            except ValueError:
-                print("Kļūda: cenai jābūt skaitlim")
-                price = input("Ievadi cenu vēlreiz: ").strip()
-        
+        if price is not None:
+            print(f"Atrasta cena: {price:.2f} EUR/gab.")
+            
+            while True:
+                choice = input("[A]kceptēt / [M]ainīt? ").strip().lower()
+
+                if choice == "a":
+                    break
+
+                elif choice == "m":
+                    while True:
+                        try:
+                            price = float(input("Jaunā cena: ").strip())
+                            if price <= 0:
+                                print("Kļūda: cenai jābūt > 0")
+                                continue
+
+                            set_price(name, price)
+                            print(f"✓ Cena atjaunināta: {name} ({price:.2f} EUR)")
+                            break
+                        except ValueError:
+                            print("Kļūda: ievadi skaitli")
+
+                    break
+
+                else:
+                    print("Ievadi tikai A vai M")
+
+        else:
+            print("Cena nav zināma.")
+
+            while True:
+                try:
+                    price = float(input("Ievadi cenu: ").strip())
+                    if price <= 0:
+                        print("Kļūda: cenai jābūt > 0")
+                        continue
+
+                    set_price(name, price)
+                    print(f"✓ Cena saglabāta: {name} ({price:.2f} EUR)")
+                    break
+                except ValueError:
+                    print("Kļūda: ievadi skaitli")
+            
         add_product(name, qty, price)
 
     # ----------------
