@@ -1,5 +1,6 @@
 import sys
 from storage import load_list, save_list
+import utils
 
 def add_product(name, qty, price):
     """
@@ -15,17 +16,20 @@ def add_product(name, qty, price):
     """
     products = load_list()
 
-    total_price = qty * price
+    
 
-    products.append({
+    item = {
         "name": name,
         "qty": qty,
         "price": price
-    })
+    }
 
+    products.append(item)
     save_list(products)
 
-    print(f"✓ Pievienots: {name} x {qty} ({price:.2f} EUR/gab.) = {total_price:.2f} EUR")
+    total = utils.calc_line_total(item)
+
+    print(f"✓ Pievienots: {name} x {qty} ({price:.2f} EUR/gab.) = {total:.2f} EUR")
 
 def list_products():
     """
@@ -51,7 +55,7 @@ def list_products():
         qty = product.get('qty', 1)
         price = product.get('price', 0)
 
-        total = qty * price
+        total = utils.calc_line_total(product)
 
         print(f"  {i}. {product['name']} x {qty} — {price:.2f} EUR/gab. - {total:.2f} EUR")
 
@@ -66,8 +70,8 @@ def total_products():
 
     # p.get("price", 0): Katram produktam p tiek meklēta vērtība pie atslēgas "price". 
     # Ja cena nav norādīta, funkcija .get() atgriež 0, lai kods "nenobruktu" kļūdas (KeyError) dēļ.
-    total_price = sum(p.get("price", 0) * p.get("qty", 1) for p in products)
-    total_qty = sum(p.get("qty", 1) for p in products)
+    total_price = utils.calc_grand_total(products)
+    total_qty = utils.count_units(products)
 
     print(f"Kopā: {total_price:.2f} EUR ({total_qty} vienības, {len(products)} produkti)")
 
