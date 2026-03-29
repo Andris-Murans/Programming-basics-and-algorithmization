@@ -1,37 +1,41 @@
 import sys
 from storage import load_list, save_list
 
-
-def add_product(name, price):
+def add_product(name, qty, price):
     """
     Pievieno jaunu produktu un saglabā to failā.
 
     Parametri:
     name (str): produkta nosaukums
+    qty (int): daudzums
     price (float): produkta cena
 
     Piemērs:
-    >>> add_product("Maize", "1.20")
+    >>> add_product("Maize", 3, 1.20)
     """
     products = load_list()
 
+    total_price = qty * price
+
     products.append({
         "name": name,
+        "qty": qty,
         "price": price
     })
 
     save_list(products)
 
-    print(f"✓ Pievienots: {name} ({price:.2f} EUR)")
+    print(f"✓ Pievienots: {name} x {qty} ({price:.2f} EUR/gab.) = {total_price:.2f} EUR")
 
 def list_products():
     """
-    Izvada visus produktus uz ekrāna.
+    Izvada visus produktus uz ekrāna ar daudzumu un kopējo cenu.
 
     Piemērs:
     >>> list_products()
-    1. Maize - 1.20 EUR
-    2. Piens - 1.50 EUR
+    Iepirkumu saraksts:
+      1. Maize x 3 - 1.20 EUR/gab. - 3.60 EUR
+      2. Piens x 2 - 1.50 EUR/gab. - 3.00 EUR
     """
     products = load_list()
 
@@ -43,25 +47,29 @@ def list_products():
     print("\nIepirkumu saraksts:")
 
     for i, product in enumerate(products, start=1):
-        print(f"  {i}. {product['name']} — {product['price']:.2f} EUR")
+
+        qty = product.get('qty', 1)
+        price = product.get('price', 0)
+
+        total = qty * price
+
+        print(f"  {i}. {product['name']} x {qty} — {price:.2f} EUR/gab. - {total:.2f} EUR")
 
 def total_products():
     """
-    Aprēķina un izvada kopējo summu un produktu skaitu.
-
-    Funkcija nolasa produktus no faila, summē visu produktu cenas
-    un izvada rezultātu.
+    Aprēķina un izvada kopējo summu, vienību skaitu un produktu skaitu.
 
     Izvade:
-    Kopā: 2.70 EUR (2 produkti)
+    Kopā: 6.60 EUR (5 vienības, 2 produkti)
     """
     products = load_list()
 
     # p.get("price", 0): Katram produktam p tiek meklēta vērtība pie atslēgas "price". 
     # Ja cena nav norādīta, funkcija .get() atgriež 0, lai kods "nenobruktu" kļūdas (KeyError) dēļ.
-    total = sum(p.get("price", 0) for p in products)
+    total_price = sum(p.get("price", 0) * p.get("qty", 1) for p in products)
+    total_qty = sum(p.get("qty", 1) for p in products)
 
-    print(f"Kopā: {total:.2f} EUR ({len(products)} produkti)")
+    print(f"Kopā: {total_price:.2f} EUR ({total_qty} vienības, {len(products)} produkti)")
 
 def clear_products():
     """
@@ -96,23 +104,39 @@ def main():
     if command == "add":
 
         # Ja nav argumentu, lieto input()
-        if len(sys.argv) < 4:
+        if len(sys.argv) < 5:
             print("\nIevadi produktu:")
 
             name = input("Nosaukums: ").strip()
+            qty = input("Daudzums: ").strip()
             price = input("Cena: ").strip()
         
         else:
             name = sys.argv[2]
-            price = sys.argv[3]
+            qty = sys.argv[3]
+            price = sys.argv[4]
         
         # -------- VALIDĀCIJA --------
-        # tukšs nosaukums
+        # Nosaukums
         while not name.strip(): # .strip() lai novērstu tukšas atstarpes
             print("Kļūda: nosaukums nevar būt tukšs")
             name = input("Ievadi nosaukumu vēlreiz: ").strip()
         
-        # tukša cena
+        # Daudzums
+        while True:
+            try:
+                qty = int(qty)
+
+                if qty <= 0:
+                    print("Kļūda: daudzumam jābūt lielākam par 0")
+                    qty = input("Ievadi daudzumu vēlreiz: ").strip()
+                    continue
+                break
+            except ValueError:
+                print("Kļūda: daudzumam jābūt veselam skaitlim")
+                qty = input("Ievadi daudzumu vēlreiz: ").strip()
+
+        # Cena
         while True:
             try:
                 price = float(price)
@@ -126,7 +150,7 @@ def main():
                 print("Kļūda: cenai jābūt skaitlim")
                 price = input("Ievadi cenu vēlreiz: ").strip()
         
-        add_product(name, price)
+        add_product(name, qty, price)
 
     # ----------------
     # 3. LIST komanda
@@ -152,7 +176,6 @@ def main():
     else:
         print("Nezināma komanda")
         print("Pieejamās komandas: add, list, total, clear")
-
 
 if __name__ == "__main__":
     main()
