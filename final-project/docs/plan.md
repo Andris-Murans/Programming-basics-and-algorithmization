@@ -58,3 +58,5 @@ Nepareiza ievade: Ja lietotājs ievada negatīvu summu vai neeksistējošu datum
                   programma lūdz ievadīt datus atkārtoti.
 Datu trūkums: Ja lietotājs izvēlas "Parādīt izdevumus", bet saraksts ir tukšs, 
               tiek attēlots paziņojums "Nav reģistrētu izdevumu".
+Nepareiza kategorijas izvēle: Ja lietotājs ievada skaitli, kas nav sarakstā (piemēram, "9"), 
+                              programma parāda kļūdu un lūdz veikt izvēli atkārtoti.
