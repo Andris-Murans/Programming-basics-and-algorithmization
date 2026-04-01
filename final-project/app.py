@@ -44,8 +44,9 @@ def add_expense(expenses):
 
         ✓ Pievienots: 2026-03-31 | Ēdiens | 12.50 EUR | Pusdienas
     """
-
+    
     print("\n" + "═" * 4 + " Pievienot jaunu izdevumu " + "═" * 4)
+    print()
 
     # 1. Datums (noklusējums = šodiena)
     today = date.today().strftime("%Y-%m-%d")
@@ -66,7 +67,8 @@ def add_expense(expenses):
             print("Nepareizs datums! Lūdzu ievadi formātā YYYY-MM-DD.")
 
     # 2. Kategorijas izvēle
-    print("Izvēlies kategoriju:")
+    print("\nIzvēlies kategoriju:")
+    print()
 
     # Izvada visas kategorijas ar numuriem
     for i, cat in enumerate(CATEGORIES, 1):
@@ -75,7 +77,7 @@ def add_expense(expenses):
     while True:
         try:
             # Lietotājs ievada skaitli -> pārvērš indeksā
-            cat_index = int(input(f"Izvēlies (1-{len(CATEGORIES)}): ").strip()) - 1
+            cat_index = int(input(f"\nIzvēlies (1-{len(CATEGORIES)}): ").strip()) - 1
             category = CATEGORIES[cat_index]    # paņem izvēlēto kategoriju
             break
         except (ValueError, IndexError):
@@ -86,25 +88,25 @@ def add_expense(expenses):
     while True:
         try:
             # Pārvērš ievadi uz float
-            amount = float(input("Summa (EUR): ").strip())
+            amount = float(input("\nSumma (EUR): ").strip())
 
              # Pārbauda vai summa ir pozitīva
             if amount <= 0:
-                print("Summai jābūt lielākai par 0!")
+                print("\nSummai jābūt lielākai par 0!")
                 continue
 
             break  # pareiza ievade -> iziet no cikla
 
         except ValueError:
             # Ja nav skaitlis -> kļūdas ziņojums
-            print("Lūdzu ievadi skaitli (piemēram: 12.50)")
+            print("\nLūdzu ievadi skaitli (piemēram: 12.50)")
 
     # 4. Apraksts (neļauj tukšu)
     while True:
-        description = input("Apraksts: ").strip()
+        description = input("\nApraksts: ").strip()
         if description:
             break   # ja nav tukšs -> OK
-        print("Apraksts nevar būt tukšs!")
+        print("\nApraksts nevar būt tukšs!")
 
     # 5. Izveido jaunu izdevuma ierakstu (dict)
     new_expense = {
@@ -119,7 +121,7 @@ def add_expense(expenses):
     save_expenses(expenses)
 
     # Apstiprinājuma ziņojums lietotājam
-    print(f"✓ Pievienots: {date_input} | {category} | {amount:.2f} EUR | {description}")
+    print(f"\n✓ Pievienots: {date_input} | {category} | {amount:.2f} EUR | {description}")
 
 def show_expenses(expenses):
     """
@@ -146,7 +148,7 @@ def show_expenses(expenses):
     amount_width = max(len("Summa"), max(len(f"{exp['amount']:.2f} EUR") for exp in expenses))
 
     # Kopējais tabulas platums
-    total_width = date_width + amount_width + category_width + desc_width + 9
+    total_width = date_width + amount_width + category_width + desc_width + 7
 
     # atstarpe starp kolonnām
     sep = "  "
@@ -181,9 +183,22 @@ def show_expenses(expenses):
 
     print("=" * total_width)
 
+def print_header(text, symbol="═", width=40):
+    print("\n" + symbol * width)
+    print(text.center(width))
+    print(symbol * width)
+    print()
+
+def print_inline_header(text, symbol="═", width=40):
+    text = f" {text} "
+    total_symbols = width - len(text)
+    left = total_symbols // 2
+    right = total_symbols - left
+    print(symbol * left + text + symbol * right)
+
 def show_menu():
         # Izvada galveno izvēlni
-        print("\n════ Izdevumu izsekotājs ════")
+        print_header("Izdevumu izsekotājs")
         print("1) Pievienot izdevumu")
         print("2) Parādīt visus izdevumus")
         print("3) Filtrēt pēc mēneša")
@@ -193,7 +208,6 @@ def show_menu():
 
         # Atgriež lietotāja izvēli
         return input("\nIzvēlies darbību (1, 2, 3, 4, 5 vai 7): ")
-
 
 def main():
     """
@@ -216,12 +230,19 @@ def main():
 
         >>> main()
 
-        ════ Izdevumu izsekotājs ════
+        ════════════════════════════════════════
+                  Izdevumu izsekotājs
+        ════════════════════════════════════════
+
         1) Pievienot izdevumu
         2) Parādīt visus izdevumus
+        3) Filtrēt pēc mēneša
+        4) Kopsavilkums pa kategorijām
+        5) Dzēst izdevumu
+        6) Eksportēt CSV
         7) Iziet
 
-        Izvēlies darbību (1, 2 vai 7):
+        Izvēlies darbību (1 - 7):
     """
 
     # Ielādē izdevumus no faila
@@ -237,7 +258,8 @@ def main():
             show_expenses(expenses)
         
         elif choice == "3":
-            print("\n════ Filtrēt pēc mēneša ════")
+            print()
+            print_inline_header("Filtrēt pēc mēneša")
 
             # 1. Dabū pieejamos mēnešus
             months = logic.get_available_months(expenses)
@@ -255,12 +277,12 @@ def main():
             # 3. Lietotāja izvēle (atkārto līdz pareizi)
             while True:
                 try:
-                    index = int(input("Izvēlies mēnesi: > ")) - 1
+                    index = int(input("\nIzvēlies mēnesi: > ")) - 1
                     selected = months[index]
                     break  # ja viss OK -> iziet no cikla
 
                 except (ValueError, IndexError):
-                    print("Nepareiza izvēle! Mēģini vēlreiz.")
+                    print("\nNepareiza izvēle! Mēģini vēlreiz.")
 
             # 4. Sadala gadu un mēnesi
             year, month = map(int, selected.split("-"))
@@ -270,21 +292,23 @@ def main():
 
             # 6. Ja nav rezultātu
             if not filtered:
-                print("Nav ierakstu šajā mēnesī.")
+                print("\nNav ierakstu šajā mēnesī.")
                 continue
 
             # 7. Izvade
             print(f"\n{selected} izdevumi:")
+            print()
 
             for exp in filtered:
                 print(f"{exp['date']} | {exp['amount']:>6.2f} EUR | {exp['category']:<10} | {exp['description']}")
 
             # 8. Kopsumma
             total = logic.sum_total(filtered)
-            print(f"Kopā: {total:.2f} EUR ({len(filtered)} ieraksti)")
+            print(f"\nKopā: {total:.2f} EUR ({len(filtered)} ieraksti)")
 
         elif choice == "4":
-            print("\n════ Kopsavilkums pa kategorijām ════")
+            print()
+            print_inline_header("Kopsavilkums pa kategorijām")
 
             # Izsauc loģikas funkciju, kas saskaita izdevumus pa kategorijām
             # Rezultāts: vārdnīca {kategorija: summa}
@@ -298,15 +322,16 @@ def main():
             # Nosaka garāko kategorijas nosaukumu, lai izlīdzinātu kolonnas
             cat_width = max(len(cat) for cat in category_totals.keys())
 
-            print("───────────────────────────")
+            line = "─" * (cat_width + 20)
+            print(f"\n{line}")
 
             # Izvada katru kategoriju un tās summu
             # Kategorija tiek izlīdzināta pa kreisi
             # Summa tiek izlīdzināta pa labi (ar 2 decimālēm)
-            for cat, total in category_totals.items():
+            for cat, total in sorted(category_totals.items()):
                 print(f"  {cat:<{cat_width}}:{total:>10.2f} EUR")
 
-            print("─" * 27)
+            print(line)
 
             # Aprēķina kopējo izdevumu summu
             total_all = logic.sum_total(expenses)
@@ -315,11 +340,13 @@ def main():
             print(f"  {'KOPĀ:':<{cat_width}} {total_all:>10.2f} EUR")
 
         elif choice == "5":
-            print("\n════ Dzēst izdevumu ════")
+            print()
+            print_inline_header("Dzēst izdevumu")
             print("\nIzdevumi:")
+            print()
             
             if not expenses:
-                print("Saraksts ir tukšs, nav ko dzēst.")
+                print("\nSaraksts ir tukšs, nav ko dzēst.")
                 continue
 
             # 1. Parāda numurētu sarakstu (līdzīgi kā show_expenses, bet ar indeksu)
@@ -335,14 +362,14 @@ def main():
 
                     # Lietotājs atceļ
                     if idx == -1:
-                        print("Dzēšana atcelta.")
+                        print("\nDzēšana atcelta.")
                         break  # iziet no while, atpakaļ uz galveno menu
 
                     # Pārbaude vai indekss ir derīgs
                     deleted = expenses.pop(idx)
                     save_expenses(expenses)
 
-                    print(f"✓ Dzēsts: {deleted['date']} | {deleted['amount']} EUR | {deleted['category']} | {deleted['description']}")
+                    print(f"\n✓ Dzēsts: {deleted['date']} | {deleted['amount']:.2f} EUR | {deleted['category']} | {deleted['description']}")
                     break  # veiksmīgi — izejam no cikla
 
                 except (ValueError, IndexError):
