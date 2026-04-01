@@ -96,3 +96,35 @@ def sum_by_category(expenses):
 
     # Izveido jaunu vārdnīcu ar noapaļotām vērtībām (2 zīmes aiz komata)
     return {cat: round(total, 2) for cat, total in totals.items()}
+
+def get_available_months(expenses):
+    """
+    Atrod visus unikālos mēnešus (YYYY-MM), kuros ir reģistrēti izdevumi.
+
+    Args:
+        expenses (list): Saraksts ar izdevumu ierakstiem (dict).
+
+    Returns:
+        list: Sakārtots saraksts ar unikālām mēnešu virknēm, piemēram, ["2025-01", "2025-02"].
+    
+    Examples:
+        >>> get_available_months([
+                {"date": "2025-02-15", "amount": 10.0, "category": "Ēdiens"},
+                {"date": "2025-01-10", "amount": 5.0, "category": "Transports"},
+                {"date": "2025-02-20", "amount": 15.0, "category": "Izklaide"}
+            ])
+        ['2025-01', '2025-02']
+    """
+    # Izmantojam 'set' (kopu), lai automātiski atlasītu tikai unikālas vērtības
+    months = set()
+    
+    for expense in expenses:
+        # No datuma stringa paņem tikai gadu un mēnesi (YYYY-MM)
+        # piemērs: "2025-02-15" -> "2025-02"
+        month_str = expense["date"][:7]
+
+        # Pievieno kopai (set nepieļauj dublikātus)
+        months.add(month_str)
+    
+    # Sakārto mēnešus augošā secībā un pārvērš par sarakstu
+    return sorted(months)
