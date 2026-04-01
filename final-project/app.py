@@ -314,6 +314,40 @@ def main():
             # Izvada kopējo summu, izlīdzinot tekstu ar kategorijām
             print(f"  {'KOPĀ:':<{cat_width}} {total_all:>10.2f} EUR")
 
+        elif choice == "5":
+            print("\n════ Dzēst izdevumu ════")
+            print("\nIzdevumi:")
+            
+            if not expenses:
+                print("Saraksts ir tukšs, nav ko dzēst.")
+                continue
+
+            # 1. Parāda numurētu sarakstu (līdzīgi kā show_expenses, bet ar indeksu)
+            for i, exp in enumerate(expenses, 1):
+                print(f"{i}) {exp['date']} | {exp['amount']:>8.2f} EUR | {exp['category']}")
+
+            # 2. Lietotāja izvēle
+            # Iekšējais cikls — atkārtot ievadi līdz pareizai
+            while True:
+                try:
+                    idx_input = input("\nKuru dzēst? (numurs vai 0 lai atceltu): > ")
+                    idx = int(idx_input) - 1
+
+                    # Lietotājs atceļ
+                    if idx == -1:
+                        print("Dzēšana atcelta.")
+                        break  # iziet no while, atpakaļ uz galveno menu
+
+                    # Pārbaude vai indekss ir derīgs
+                    deleted = expenses.pop(idx)
+                    save_expenses(expenses)
+
+                    print(f"✓ Dzēsts: {deleted['date']} | {deleted['amount']} EUR | {deleted['category']} | {deleted['description']}")
+                    break  # veiksmīgi — izejam no cikla
+
+                except (ValueError, IndexError):
+                    print("Kļūda: Nepareizs numurs! Mēģini vēlreiz.")
+
         elif choice == "7":
             print("Uz redzēšanos!")
             break
