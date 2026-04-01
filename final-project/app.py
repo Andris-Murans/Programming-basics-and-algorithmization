@@ -173,7 +173,7 @@ def show_expenses(expenses):
         )
 
     # Aprēķina kopējo summu
-    total = sum_total(expenses)
+    total = logic.sum_total(expenses)
 
     # 4. Kopsumma
     print("-" * total_width)
@@ -282,6 +282,37 @@ def main():
             # 8. Kopsumma
             total = logic.sum_total(filtered)
             print(f"Kopā: {total:.2f} EUR ({len(filtered)} ieraksti)")
+
+        elif choice == "4":
+            print("\n════ Kopsavilkums pa kategorijām ════")
+
+            # Izsauc loģikas funkciju, kas saskaita izdevumus pa kategorijām
+            # Rezultāts: vārdnīca {kategorija: summa}
+            category_totals = logic.sum_by_category(expenses)
+
+            # Ja nav datu, ko attēlot, izvada ziņu un atgriežas izvēlnē
+            if not category_totals:
+                print("Nav datu, ko grupēt.")
+                continue
+
+            # Nosaka garāko kategorijas nosaukumu, lai izlīdzinātu kolonnas
+            cat_width = max(len(cat) for cat in category_totals.keys())
+
+            print("───────────────────────────")
+
+            # Izvada katru kategoriju un tās summu
+            # Kategorija tiek izlīdzināta pa kreisi
+            # Summa tiek izlīdzināta pa labi (ar 2 decimālēm)
+            for cat, total in category_totals.items():
+                print(f"  {cat:<{cat_width}}:{total:>10.2f} EUR")
+
+            print("─" * 27)
+
+            # Aprēķina kopējo izdevumu summu
+            total_all = logic.sum_total(expenses)
+
+            # Izvada kopējo summu, izlīdzinot tekstu ar kategorijām
+            print(f"  {'KOPĀ:':<{cat_width}} {total_all:>10.2f} EUR")
 
         elif choice == "7":
             print("Uz redzēšanos!")
