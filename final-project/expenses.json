@@ -10,5 +10,11 @@
     "amount": 3.4,
     "category": "Transports",
     "description": "Autobusa biļete"
+  },
+  {
+    "date": "2026-02-15",
+    "amount": 5.2,
+    "category": "Transports",
+    "description": "Auto stāvvieta"
   }
 ]
