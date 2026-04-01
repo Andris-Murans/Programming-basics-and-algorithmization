@@ -66,3 +66,33 @@ def filter_by_month(expenses, year, month):
 
     # Atgriež visus atbilstošos izdevumus
     return result
+
+def sum_by_category(expenses):
+    """
+    Aprēķina kopējo izdevumu summu katrai kategorijai.
+
+    Args:
+        expenses (list): Saraksts ar izdevumu ierakstiem (dict).
+
+    Returns:
+        dict: Vārdnīca ar formātu {kategorija: summa}.
+
+    Examples:
+        >>> sum_by_category([
+                {"date": "2026-03-31", "amount": 10.00, "category": "Ēdiens", "description": ""},
+                {"date": "2026-03-31", "amount": 5.00, "category": "Ēdiens", "description": ""},
+                {"date": "2026-03-31", "amount": 7.00, "category": "Transports", "description": ""}
+            ])
+        {'Ēdiens': 15.0, 'Transports': 7.0}
+    """
+    totals = {}     # Vārdnīca, kur glabās summas pa kategorijām
+    for expense in expenses:
+        # Paņem kategoriju no ieraksta
+        cat = expense["category"]
+
+        # Pieskaita summu attiecīgajai kategorijai
+        # ja kategorija vēl neeksistē, sāk ar 0
+        totals[cat] = totals.get(cat, 0) + expense["amount"]
+
+    # Izveido jaunu vārdnīcu ar noapaļotām vērtībām (2 zīmes aiz komata)
+    return {cat: round(total, 2) for cat, total in totals.items()}
