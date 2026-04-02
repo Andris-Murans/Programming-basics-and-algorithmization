@@ -1,6 +1,7 @@
 from storage import load_expenses, save_expenses
 import logic
 from datetime import datetime, date
+from export import export_to_csv
 
 # Iepriekš definēts kategoriju saraksts
 CATEGORIES = ["Ēdiens", "Transports", "Izklaide", "Komunālie maksājumi", "Veselība", "Iepirkšanās", "Cits"]
@@ -54,11 +55,12 @@ def add_expense(expenses):
         # Lietotājs ievada datumu (vai nospiež Enter -> tiek izmantots today)
         date_input = input(f"Datums (YYYY-MM-DD) [{today}]: ").strip()
 
+        # Ja lietotājs neko neievada, izmanto šodienas datumu
         if not date_input:
-            date_input = today  # tukša ievade -> šodienas datums
+            date_input = today
 
         try:
-            # Mēģina pārveidot tekstu uz datetime objektu (validācija)
+            # Pārbauda vai datums atbilst formātam YYYY-MM-DD (validācija) 
             datetime.strptime(date_input, "%Y-%m-%d")
             break  # ja datums derīgs -> iziet no cikla
 
@@ -76,12 +78,16 @@ def add_expense(expenses):
 
     while True:
         try:
-            # Lietotājs ievada skaitli -> pārvērš indeksā
             cat_index = int(input(f"\nIzvēlies (1-{len(CATEGORIES)}): ").strip()) - 1
-            category = CATEGORIES[cat_index]    # paņem izvēlēto kategoriju
-            break
+
+            # Pārbauda vai derīga izvēle
+            if 0 <= cat_index < len(CATEGORIES):
+                category = CATEGORIES[cat_index]
+                break
+            else:
+                print("Nederīga izvēle, mēģini vēlreiz.")
+
         except (ValueError, IndexError):
-            # Ja ievade nav derīga -> atkārto
             print("Nederīga izvēle, mēģini vēlreiz.")
 
     # 3. Summas ievade un validācija
@@ -148,6 +154,7 @@ def show_expenses(expenses):
     amount_width = max(len("Summa"), max(len(f"{exp['amount']:.2f} EUR") for exp in expenses))
 
     # Kopējais tabulas platums
+    # +7 = atstarpes un separatori starp kolonnām
     total_width = date_width + amount_width + category_width + desc_width + 7
 
     # atstarpe starp kolonnām
@@ -184,30 +191,55 @@ def show_expenses(expenses):
     print("=" * total_width)
 
 def print_header(text, symbol="═", width=40):
+    """
+    Izvada virsrakstu ar līnijām augšā un apakšā.
+
+    Args:
+        text (str): Virsraksta teksts.
+        symbol (str): Līnijas simbols.
+        width (int): Kopējais platums.
+    """
     print("\n" + symbol * width)
     print(text.center(width))
     print(symbol * width)
     print()
 
 def print_inline_header(text, symbol="═", width=40):
+    """
+    Izvada virsrakstu vienā rindā ar simboliem abās pusēs.
+
+    Args:
+        text (str): Virsraksta teksts.
+        symbol (str): Līnijas simbols.
+        width (int): Kopējais platums.
+    """
     text = f" {text} "
+    # Aprēķina, cik simbolu jāliek pa kreisi un pa labi,
+    # lai teksts būtu centrēts arī tad, ja platums nav pāra skaitlis
     total_symbols = width - len(text)
     left = total_symbols // 2
     right = total_symbols - left
     print(symbol * left + text + symbol * right)
 
 def show_menu():
-        # Izvada galveno izvēlni
-        print_header("Izdevumu izsekotājs")
-        print("1) Pievienot izdevumu")
-        print("2) Parādīt visus izdevumus")
-        print("3) Filtrēt pēc mēneša")
-        print("4) Kopsavilkums pa kategorijām")
-        print("5) Dzēst izdevumu")
-        print("7) Iziet")
+    """
+    Izvada galveno izvēlni un atgriež lietotāja izvēli.
 
-        # Atgriež lietotāja izvēli
-        return input("\nIzvēlies darbību (1, 2, 3, 4, 5 vai 7): ")
+    Returns:
+        str: Lietotāja ievadītā izvēle.
+    """
+    # Izvada galveno izvēlni
+    print_header("Izdevumu izsekotājs")
+    print("1) Pievienot izdevumu")
+    print("2) Parādīt visus izdevumus")
+    print("3) Filtrēt pēc mēneša")
+    print("4) Kopsavilkums pa kategorijām")
+    print("5) Dzēst izdevumu")
+    print("6) Eksportēt CSV")
+    print("7) Iziet")
+
+    # Atgriež lietotāja izvēli
+    return input("\nIzvēlies darbību (1 - 7): ")
 
 def main():
     """
@@ -218,6 +250,10 @@ def main():
     Lietotājs var:
     - pievienot jaunu izdevumu
     - apskatīt visus izdevumus
+    - filtrēt izdevumus pēc mēneša
+    - apskatīt kopsavilkumu pa kategorijām
+    - dzēst izdevumu
+    - eksportēt izdevumus uz CSV
     - iziet no programmas
 
     Dati tiek saglabāti un atjaunināti visas programmas darbības laikā.
@@ -360,7 +396,7 @@ def main():
                     idx_input = input("\nKuru dzēst? (numurs vai 0 lai atceltu): > ")
                     idx = int(idx_input) - 1
 
-                    # Lietotājs atceļ
+                    # Lietotājs ievada 0 -> idx kļūst -1 -> tas nozīmē "atcelt"
                     if idx == -1:
                         print("\nDzēšana atcelta.")
                         break  # iziet no while, atpakaļ uz galveno menu
@@ -374,6 +410,29 @@ def main():
 
                 except (ValueError, IndexError):
                     print("Kļūda: Nepareizs numurs! Mēģini vēlreiz.")
+
+        elif choice == "6":
+            print()
+            print_inline_header("Eksportēt CSV")
+
+            # Lietotājs var ievadīt faila nosaukumu (vai atstāt tukšu)
+            filename = input("\nFaila nosaukums (Enter = izdevumi.csv): ").strip()
+
+            # Ja atstāj tukšu un nospiež ENTER -> faila nosaukums būs izdevumi.csv
+            if not filename:
+                filename = "izdevumi.csv"
+
+            # Ja lietotājs neieraksta .csv -> pievieno automātiski
+            if not filename.endswith(".csv"):
+                filename += ".csv"
+
+            # Izsauc eksportu
+            success = export_to_csv(expenses, filename)
+
+            if success:
+                print("Eksports pabeigts veiksmīgi.")
+            else:
+                print("Eksports neizdevās.")
 
         elif choice == "7":
             print("Uz redzēšanos!")
