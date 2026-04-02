@@ -25,7 +25,7 @@ git clone https://github.com/Andris-Murans/Programming-basics-and-algorithmizati
 
 2. Palaid programmu:
 
-```
+```bash
 python expense_tracker/app.py
 ```
 
@@ -61,4 +61,4 @@ docs/ – Plānošanas un izstrādes dokumentācija.
 
 ## 👨‍🎓 Autors
 
-Andris Murāns — Programmēšanas pamati, 2025
+**Andris Murāns** — Programmēšanas pamati, 2025
