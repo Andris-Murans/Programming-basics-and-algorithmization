@@ -78,12 +78,16 @@ def add_expense(expenses):
 
     while True:
         try:
-            # Lietotājs ievada skaitli -> pārvērš indeksā
             cat_index = int(input(f"\nIzvēlies (1-{len(CATEGORIES)}): ").strip()) - 1
-            category = CATEGORIES[cat_index]    # paņem izvēlēto kategoriju
-            break
+
+            # Pārbauda vai derīga izvēle
+            if 0 <= cat_index < len(CATEGORIES):
+                category = CATEGORIES[cat_index]
+                break
+            else:
+                print("Nederīga izvēle, mēģini vēlreiz.")
+
         except (ValueError, IndexError):
-            # Ja ievade nav derīga -> atkārto
             print("Nederīga izvēle, mēģini vēlreiz.")
 
     # 3. Summas ievade un validācija
