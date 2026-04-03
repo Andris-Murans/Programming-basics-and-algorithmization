@@ -16,5 +16,65 @@
     "amount": 5.2,
     "category": "Transports",
     "description": "Auto stāvvieta"
+  },
+  {
+    "date": "2026-01-01",
+    "amount": 2.49,
+    "category": "Ēdiens",
+    "description": "Čipši"
+  },
+  {
+    "date": "2026-01-02",
+    "amount": 5.0,
+    "category": "Izklaide",
+    "description": "Kino"
+  },
+  {
+    "date": "2026-02-15",
+    "amount": 25.0,
+    "category": "Izklaide",
+    "description": "Koncerts"
+  },
+  {
+    "date": "2026-03-01",
+    "amount": 100.0,
+    "category": "Komunālie maksājumi",
+    "description": "Apkure"
+  },
+  {
+    "date": "2026-03-04",
+    "amount": 7.5,
+    "category": "Komunālie maksājumi",
+    "description": "Atkritumi"
+  },
+  {
+    "date": "2026-01-24",
+    "amount": 45.0,
+    "category": "Veselība",
+    "description": "Zobārsts"
+  },
+  {
+    "date": "2026-02-14",
+    "amount": 15.0,
+    "category": "Veselība",
+    "description": "Masāža"
+  },
+  {
+    "date": "2026-03-25",
+    "amount": 30.0,
+    "category": "Iepirkšanās",
+    "description": "Krekls"
+  },
+  {
+    "date": "2026-01-31",
+    "amount": 43.0,
+    "category": "Iepirkšanās",
+    "description": "Bikses"
+  },
+  {
+    "date": "2026-03-21",
+    "amount": 15.49,
+    "category": "Cits",
+    "description": "Līzings"
   }
 ]

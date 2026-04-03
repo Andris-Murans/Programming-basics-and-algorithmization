@@ -21,7 +21,9 @@ Tā ļauj lietotājam reģistrēt izdevumus, grupēt tos pa kategorijām, analiz
 
 1. Klonē repozitoriju:
 
+```bash
 git clone https://github.com/Andris-Murans/Programming-basics-and-algorithmization.git
+```
 
 2. Palaid programmu:
 
@@ -35,27 +37,45 @@ python expense_tracker/app.py
 
 Palaižot programmu, tiek parādīta izvēlne:
 
-**1) Pievienot izdevumu** – ievada datumu, kategoriju, summu un aprakstu
-**2) Parādīt visus izdevumus** – tabulas veidā ar kopsummu
-**3) Filtrēt pēc mēneša** – apskatīt konkrēta mēneša izdevumus
-**4) Kopsavilkums pa kategorijām** – izdevumu sadalījums
-**5) Dzēst izdevumu** – no saraksta pēc numura
-**6) Eksportēt CSV** – saglabā datus failā
-**7) Iziet** – aizver programmu
+```text
+════════════════════════════════════════
+Izdevumu izsekotājs
+════════════════════════════════════════
+
+1) Pievienot izdevumu
+2) Parādīt visus izdevumus
+3) Filtrēt pēc mēneša
+4) Kopsavilkums pa kategorijām
+5) Dzēst izdevumu
+6) Eksportēt CSV
+7) Iziet
+
+Izvēlies darbību (1 - 7):
+```
+
+**Komandu apraksts**
+
+- **1) Pievienot izdevumu** – ievada datumu, kategoriju, summu un aprakstu
+- **2) Parādīt visus izdevumus** – tabulas veidā ar kopsummu
+- **3) Filtrēt pēc mēneša** – apskatīt konkrēta mēneša izdevumus
+- **4) Kopsavilkums pa kategorijām** – izdevumu sadalījums
+- **5) Dzēst izdevumu** – no saraksta pēc numura
+- **6) Eksportēt CSV** – saglabā datus failā
+- **7) Iziet** – aizver programmu
 
 ---
 
 ## 📁 Struktūra
 
-app.py – Galvenā izvēlne un lietotāja saskarne.
+`app.py` – Galvenā izvēlne un lietotāja saskarne.
 
-storage.py – Darbs ar JSON failiem (ielāde/saglabāšana).
+`storage.py` – Darbs ar JSON failiem (ielāde/saglabāšana).
 
-logic.py – Biznesa loģika (filtrēšana, grupēšana, aprēķini).
+`logic.py` – Biznesa loģika (filtrēšana, grupēšana, aprēķini).
 
-export.py – Eksports uz CSV formātu.
+`export.py` – Eksports uz CSV formātu.
 
-docs/ – Plānošanas un izstrādes dokumentācija.
+`docs/` – Plānošanas un izstrādes dokumentācija.
 
 ---
 
